@@ -1,8 +1,4 @@
-// const question = 'What is type-coersion?';
-// const answer = prompt(question); //“ prompt dialog allows the player to type in a response, which is then stored in the variable it is assigned to”
-// alert(`You answered ${answer}`);
-
-const jsQuiz = {
+const jsQuiz = [
   {question:'What is type-coersion?', answer: 'when a value\'s data type is converted to complete an operation'},
   {question:"True or False \n '1'+1 = 2", answer: 'false'},
   {question:'Is this a constructor variable? \n const thing = 1', answer: 'no'},
@@ -19,35 +15,39 @@ const jsQuiz = {
   {question:'what is a method in js?', answer: 'the fn if a property\'s value is a function'},
   {question:'True or False: Objects are assigned by reference.', answer: 'true'},
   {question:'What will be logged?\nconst thor={name:thor}\n const snore=thor\nsnore.name=john\nconsole.log(thor.name)', answer: 'john'}
+]
+const game = {
+  start(quiz){
+    this.questions = [...quiz];
+    this.score = 0;
+
+  // main game loop
+    for(const problem in this.questions) {
+      this.question = this.questions[problem].question;
+      this.answer = this.questions[problem].answer;
+      this.ask();
+    }
+    this.gameover();
+  }, //start quiz
+
+  ask(){
+    const question = this.question
+    const response = prompt(question);
+    this.check(response)
+  }, //ask question
+
+  check(response){
+    const answer = this.answer;
+    if (response == answer) {
+      alert('Correct!');
+      this.score++;
+    } else {
+      alert('Try again.')
+    }
+  }, //check if answer matches question
+
+  gameover(){
+    console.log(`Game over. You scored ${this.score} point${this.score !==1 ? 's' : ''}`);
+  } //end game message
 }
-
-function start(quiz){
-  this.questions = [...quiz];
-  this.score = 0;
-
-// main game loop
-  for(const[question, answer] of quiz) {
-    const response = ask(question);
-    check(response, answer, score);
-  }
-  gameover(score);
-
-}
-
-function ask(question) {
-  return prompt(question);
-}
-
-function check(response, answer) {
-  if (response == answer) {
-    alert('Correct!');
-    score++;
-  } else {
-    alert('Try again.')
-  }
-}
-function gameover(score) {
-  alert(`Game over. You scored ${score} point${score !==1 ? 's' : ''}`)
-}
-
-start(jsQuiz);
+game.start(jsQuiz);
