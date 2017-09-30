@@ -1,3 +1,4 @@
+
 const jsQuiz = [
   {question:'What is type-coersion?', answer: 'when a value\'s data type is converted to complete an operation'},
   {question:"True or False \n '1'+1 = 2", answer: 'false'},
@@ -16,6 +17,23 @@ const jsQuiz = [
   {question:'True or False: Objects are assigned by reference.', answer: 'true'},
   {question:'What will be logged?\nconst thor={name:thor}\n const snore=thor\nsnore.name=john\nconsole.log(thor.name)', answer: 'john'}
 ]
+
+const view = {
+  score: document.getElementById('#score'),
+  question: document.getElementById('#question'),
+  response: document.getElementById('#response'),
+  answer: document.getElementById('#answer'),
+  restart: document.getElementById('#restart'),
+  quit: document.getElementById('#quit'),
+  render(target,content,attributes) {
+    for(const key in attributes) {
+      target.setAttribute(key, attributes[key]);
+    }
+    target.innerHTML = content;
+  }
+};
+
+
 const game = {
   start(quiz){
     this.questions = [...quiz];
