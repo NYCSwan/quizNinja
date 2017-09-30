@@ -19,25 +19,27 @@ const jsQuiz = [
 ]
 
 const view = {
-  score: document.getElementById('#score'),
-  question: document.getElementById('#question'),
-  response: document.getElementById('#response'),
-  answer: document.getElementById('#answer'),
-  restart: document.getElementById('#restart'),
-  quit: document.getElementById('#quit'),
+  score: document.querySelector('#score'),
+  question: document.getElementById('question'),
+  response: document.getElementById('response'),
+  answer: document.getElementById('answer'),
+  restart: document.getElementById('restartBtn'),
+  quit: document.getElementById('quitBtn'),
+  gameEnd: document.getElementById('game-end'),
   render(target,content,attributes) {
     for(const key in attributes) {
       target.setAttribute(key, attributes[key]);
     }
-    target.innerHTML = content;
-  }
+    target.innerText = content;
+  } //update the content of an element
 };
 
 
 const game = {
   start(quiz){
     this.questions = [...quiz];
-    this.score = 0;
+    this.totalScore = 0;
+    view.quit.addEventListener('click', this.quitGame());
 
   // main game loop
     for(const problem in this.questions) {
@@ -49,23 +51,40 @@ const game = {
   }, //start quiz
 
   ask(){
-    const question = this.question
+    const question = this.question;
+    view.render(view.question, question);
     const response = prompt(question);
-    this.check(response)
+    this.check(response);
   }, //ask question
 
   check(response){
     const answer = this.answer;
     if (response == answer) {
-      alert('Correct!');
-      this.score++;
+      view.render(view.response, 'correct', {'class': 'celebrate'})
+      // alert('Correct!');
+      this.addPoint();
     } else {
-      alert('Try again.')
+      view.render(view.response, 'Try again', {'class': 'wrong'});
+      view.render(view.answer, answer);
+      // alert('Try again.')
     }
   }, //check if answer matches question
 
+  addPoint(){
+    this.totalScore++;
+    const newScore = `My Score: ${this.totalScore}`;
+    view.render(view.score, newScore);
+    console.log(`addPoint: ${this.totalScore}`);
+  }, //add pt to score
+
+  quitGame() {
+    this.gameover();
+  }, //force quit from game
+
   gameover(){
-    console.log(`Game over. You scored ${this.score} point${this.score !==1 ? 's' : ''}`);
+    const message = `Game over. You scored ${this.totalScore} point${this.totalScore !==1 ? 's' : ''}`;
+    view.render(view.gameEnd, message)
+    console.log(`Game over. You scored ${this.totalScore} point${this.totalScore !==1 ? 's' : ''}`);
   } //end game message
 }
 game.start(jsQuiz);

@@ -2,13 +2,13 @@
 
 body {
 background: #5F1C1C;
+height: 100vh;
 font-family: 'Roboto', sans-serif;
+text-align: center;
 }
 
 .game-container {
-  width: 100%;
-  height: 800px;
-  background-size: 100% auto;
+  width: 90%;
   padding-top: 10px;
 }
 
@@ -28,4 +28,16 @@ h1 {
   text-align: center;
   font-size: 48px;
   margin: 0;
+}
+
+.question {
+  color: rgba(0,0,0,0.9);
+  z-index: 1;
+}
+.celebrate {
+  background: yellow;
+}
+
+.wrong {
+  background: green;
 }
